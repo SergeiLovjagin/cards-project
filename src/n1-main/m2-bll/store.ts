@@ -12,4 +12,4 @@ const rootReducer = combineReducers({
     registration: registrationReducer,
 })
 
-const store = createStore(rootReducer)
+export const store = createStore(rootReducer)

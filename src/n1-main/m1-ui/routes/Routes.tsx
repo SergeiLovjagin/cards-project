@@ -6,16 +6,23 @@ import {Registration} from "../../../n2-features/f1-auth/a2-registration/Registr
 import {Profile} from "../../../n2-features/f2-profile/Profile";
 import {Page404} from "../../../n2-features/f3-error/Page404";
 
-//путь констант
+export const PATH = {
+    LOGIN: '/login',
+    REGISTRATION: '/registration',
+    RECOVERY: '/recovery',
+    PROFILE: '/profile',
+    ERROR: '/404'
+}
+
 export const Routes = () => {
     return (
         <div>
             <Switch>
-                <Route path={'/login'} render={() => <Login/>}/>
-                <Route path={'/registration'} render={() => <Registration/>}/>
-                <Route path={'/recovery'} render={() => <PasswordRecovery/>}/>
-                <Route path={'/profile'} render={() => <Profile/>}/>
-                <Route path={'/404'} render={() => <Page404/>}/>
+                <Route path={PATH.LOGIN} render={() => <Login/>}/>
+                <Route path={PATH.REGISTRATION} render={() => <Registration/>}/>
+                <Route path={PATH.RECOVERY} render={() => <PasswordRecovery/>}/>
+                <Route path={PATH.PROFILE} render={() => <Profile/>}/>
+                <Route render={() => <Page404/>}/>
             </Switch>
         </div>
     )
