@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, Switch} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import {Login} from "../../../n2-features/f1-auth/a1-login/Login";
 import {PasswordRecovery} from "../../../n2-features/f1-auth/a2-registration/PasswordRecovery";
 import {Registration} from "../../../n2-features/f1-auth/a2-registration/Registration";
@@ -22,6 +22,7 @@ export const Routes = () => {
                 <Route path={PATH.REGISTRATION} render={() => <Registration/>}/>
                 <Route path={PATH.RECOVERY} render={() => <PasswordRecovery/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
+                <Redirect from={'/'} to={PATH.LOGIN}/>
                 <Route render={() => <Page404/>}/>
             </Switch>
         </div>
