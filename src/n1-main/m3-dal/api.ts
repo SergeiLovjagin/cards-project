@@ -11,6 +11,9 @@ export const API = {
     },
     async registration(email: string, password: string) {
         return await instance.post('auth/register', {email : email, password : password})
+    },
+    async authMe(){
+        return await instance.post('auth/me')
     }
 }
 
