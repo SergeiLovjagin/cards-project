@@ -7,7 +7,10 @@ const instance = axios.create({
 
 export const API = {
     async login(email: string, password: string, rememberMe: boolean) {
-        return await instance.post<ProfileType>(`/auth/login`, {email: email, password: password, rememberMe: rememberMe}, {})
+        return await instance.post<ProfileType>(`auth/login`, {email: email, password: password, rememberMe: rememberMe}, {})
+    },
+    async registration(email: string, password: string) {
+        return await instance.post('auth/register', {email : email, password : password})
     }
 }
 

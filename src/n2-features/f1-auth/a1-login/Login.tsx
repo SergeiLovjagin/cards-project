@@ -15,19 +15,9 @@ export const Login = () => {
     const [remember, setRemember] = useState<boolean>(false);
     const dispatch = useDispatch();
     const history = useHistory();
-    const loginSuccess = useSelector<RootReducerType, boolean>(state => state.login.success);
-    const loginLoading = useSelector<RootReducerType, boolean>(state => state.login.loading);
+    const {loading, success, error} = useSelector<RootReducerType, { loading: boolean, success: boolean, error: string }>(state => state.login);
 
     //HANDLERS
-    const setEmailHandler = (value: string) => {
-        setEmail(value)
-    }
-    const setPasswordHandler = (value: string) => {
-        setPassword(value)
-    }
-    const setRememberHandler = (value: boolean) => {
-        setRemember(value)
-    }
     const onLoginButtonHandler = async () => {
         dispatch(loginThunk(email, password, remember))
     }
@@ -38,23 +28,26 @@ export const Login = () => {
         history.push(PATH.REGISTRATION)
     }
 
-    if (loginSuccess) {
+    if (success) {
         return <Redirect to={PATH.PROFILE}/>
     }
     return (
         <div>
             {
-                loginLoading && <div>LOADING......</div>
+                loading && <div>LOADING......</div>
             }
-            Login Page
-            <SuperInputText onChangeText={setEmailHandler}/>
+            {
+                error.length > 0 && <div>{error}</div>
+            }
+            Email
+            <SuperInputText onChangeText={(email) => setEmail(email)}/>
             Password
-            <SuperInputText onChangeText={setPasswordHandler}/>
+            <SuperInputText onChangeText={(password) => setPassword(password)}/>
             Remember
-            <SuperCheckbox onChangeChecked={setRememberHandler}/>
-            <SuperButton onClick={onLoginButtonHandler}>Button</SuperButton>
-            <SuperButton onClick={onRecoveryButtonHandler}>Forgot password</SuperButton>
-            <SuperButton onClick={onRegistrationButtonHandler}>Sign Up</SuperButton>
+            <SuperCheckbox onChangeChecked={(remember) => setRemember(remember)}/>
+            <SuperButton disabled={loading} onClick={onLoginButtonHandler}>Button</SuperButton>
+            <SuperButton disabled={loading} onClick={onRecoveryButtonHandler}>Forgot password</SuperButton>
+            <SuperButton disabled={loading} onClick={onRegistrationButtonHandler}>Sign Up</SuperButton>
         </div>
     )
 }
