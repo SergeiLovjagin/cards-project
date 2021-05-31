@@ -1,3 +1,5 @@
+@import './../../../../abstracts/vars.scss';
+@import './../../../../abstracts/mixins.scss';
 button:focus {
     outline: none;
 }
@@ -18,8 +20,16 @@ button:hover {
 }
 
 .buttonSuper {
-    border: 1px solid black;
-    border-radius: 5px;
     margin: 3px;
     padding: 5px;
+
+    border: 1px solid;
+    border-radius: 30px;
+
+    background-color: $accentColor;
+    color:$whiteColor;
+
+    @include text-edit (SF UI Display, 500, 1rem, 1.18);
+
+
 }

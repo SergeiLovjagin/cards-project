@@ -1,48 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+@import '../../../abstracts/vars.scss';
+@import '../../../abstracts/mixins.scss';
+
 
 header {
-   border: 2px solid red;
+  border: 2px solid red;
 
-   background-color: #ffe6fb;
+  background-color: #ffe6fb;
 
 
+  .container {
+    max-width: 1250px;
 
-   .container {
-      max-width: 1250px;
+    margin: 0 auto;
 
-      margin: 0 auto;
+    padding: 0 0.9rem;
+  }
 
-      padding: 0 15px;
-   }
+  .wrap {
+    height: 3.75rem;
 
-   .wrap {
-      height: 60px;
+    @include flex-edit(space-between, center);
+  }
 
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-   }
+  .navMenu {
+    gap: 0.9rem;
 
-   .logo {
-      font-family: 'Poppins', sans-serif;
-      font-size: 20px;
-   }
+    display: flex;
 
-   .navMenu {
-      gap: 15px;
+    & a {
 
-      display: flex;
-   }
-
-   a {
-
-      font-size: 16px;
+      font-size: 1rem;
       font-family: SF-UI-Display;
       font-weight: 500;
 
       text-decoration: none;
 
-      color: black;
-   }
+      color: $textColor;
+    }
+  }
+
+
 
 }
