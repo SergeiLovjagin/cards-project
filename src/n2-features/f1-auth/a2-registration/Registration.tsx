@@ -7,6 +7,9 @@ import {registrationThunk, setError} from "../../../n1-main/m2-bll/registrationR
 import {useDispatch, useSelector} from "react-redux";
 import {RootReducerType} from "../../../n1-main/m2-bll/store";
 import {validation} from "../../../n1-main/m1-ui/common/utills/validation";
+import s from "./Registration.module.scss";
+import Logo from "../../../n1-main/m1-ui/common/logo/Logo";
+import eyeIcon from "./../../../assets/images/icons/eye.png";
 
 export const Registration = () => {
     //HOOKS
@@ -15,7 +18,11 @@ export const Registration = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [confPassword, setConfPassword] = useState<string>('');
-    const {loading, success, error} = useSelector<RootReducerType, { loading: boolean, success: boolean, error: string }>(state => state.registration);
+    const {
+        loading,
+        success,
+        error
+    } = useSelector<RootReducerType, { loading: boolean, success: boolean, error: string }>(state => state.registration);
 
     //HANDLERS
     const onCancelButtonHandler = () => {
@@ -37,21 +44,38 @@ export const Registration = () => {
         return <Redirect to={PATH.LOGIN}/>
     }
     return (
-        <div>
-            {
-                loading && <div>LOADING......</div>
-            }
-            {
-                error.length > 0 && <div>{error}</div>
-            }
-            Email
-            <SuperInputText onChangeText={(email: string) => setEmail(email)}/>
-            Password
-            <SuperInputText onChangeText={(password: string) => setPassword(password)}/>
-            Confirm password
-            <SuperInputText onChangeText={(password: string) => setConfPassword(password)}/>
-            <SuperButton disabled={loading} onClick={onCancelButtonHandler}>Cancel</SuperButton>
-            <SuperButton disabled={loading} onClick={onRegisterButtonHandler}>Registed</SuperButton>
+        <div className={s.registrationPage}>
+            <div className={s.wrap}>
+                {
+                    loading && <div>LOADING......</div>
+                }
+                {
+                    error.length > 0 && <div>{error}</div>
+                }
+                <Logo/>
+                <h1 className={s.title}>Sign up</h1>
+                <p className={s.emailText}>Email</p>
+                <SuperInputText className={s.input} placeholder={'j&johnson@gmail.com'}
+                                onChangeText={(email: string) => setEmail(email)}/>
+                <div className={s.passwordBox}>
+                    <p className={s.passwordText}>Password</p>
+                    <SuperInputText className={s.input} placeholder={'********'}
+                                    onChangeText={(password: string) => setPassword(password)}/>
+                    <button className={s.btnShow}><img src={eyeIcon} alt="eye-Icon"/></button>
+                </div>
+                <div className={s.passwordBox}>
+                    <p className={s.confirmText}>Confirm password</p>
+                    <SuperInputText placeholder={'********'} className={s.input}
+                                    onChangeText={(password: string) => setConfPassword(password)}/>
+                    <button className={s.btnShow}><img src={eyeIcon} alt="eye-Icon"/></button>
+                </div>
+                <div className={s.btnBox}>
+                    <SuperButton className={s.btnCancel} disabled={loading}
+                                 onClick={onCancelButtonHandler}>Cancel</SuperButton>
+                    <SuperButton className={s.btnRegistr} disabled={loading}
+                                 onClick={onRegisterButtonHandler}>Registed</SuperButton>
+                </div>
+            </div>
         </div>
     )
 }

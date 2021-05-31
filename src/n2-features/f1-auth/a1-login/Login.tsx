@@ -9,6 +9,7 @@ import {Redirect, useHistory} from "react-router-dom";
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
 import s from "./Login.module.scss"
 import Logo from "../../../n1-main/m1-ui/common/logo/Logo";
+import eyeIcon from "../../../assets/images/icons/eye.png";
 
 export const Login = () => {
     //HOOKS
@@ -49,16 +50,21 @@ export const Login = () => {
                 <Logo/>
                 <h1 className={s.title}>Sign in</h1>
                 <p className={s.emailText}>Email</p>
-                <SuperInputText onChangeText={(email) => setEmail(email)}/>
-                <p className={s.passwordText}>Password</p>
-                <SuperInputText onChangeText={(password) => setPassword(password)}/>
+                <SuperInputText className={s.input} placeholder={'j&johnson@gmail.com'}
+                                onChangeText={(email) => setEmail(email)}/>
+                <div className={s.passwordBox}>
+                    <p className={s.passwordText}>Password</p>
+                    <SuperInputText className={s.input} placeholder={'********'}
+                                    onChangeText={(password) => setPassword(password)}/>
+                    <button className={s.btnShow}><img src={eyeIcon} alt="eye-Icon"/></button>
 
+                </div>
                 <div className={s.remember}>
-                    <SuperCheckbox onChangeChecked={(remember) => setRemember(remember)}/>
+                    <SuperCheckbox className={s.checkbox} onChangeChecked={(remember) => setRemember(remember)}/>
                     <p className={s.rememberText}>Remember</p>
 
                 </div>
-                <SuperButton   disabled={loading} onClick={onLoginButtonHandler}>Button</SuperButton>
+                <SuperButton  disabled={loading} onClick={onLoginButtonHandler}>Login</SuperButton>
 
                 <SuperButton disabled={loading} onClick={onRecoveryButtonHandler}>Forgot password</SuperButton>
                 <SuperButton disabled={loading} onClick={onRegistrationButtonHandler}>Sign Up</SuperButton>
