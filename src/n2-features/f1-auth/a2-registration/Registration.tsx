@@ -3,7 +3,7 @@ import {SuperInputText} from "../../../n1-main/m1-ui/common/SuperInput/SuperInpu
 import {SuperButton} from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
 import {Redirect, useHistory} from "react-router-dom";
-import {registrationThunk, setError} from "../../../n1-main/m2-bll/registrationReducer";
+import {registrationThunk, setRegistrationError} from "../../../n1-main/m2-bll/registrationReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootReducerType} from "../../../n1-main/m2-bll/store";
 import {validation} from "../../../n1-main/m1-ui/common/utills/validation";
@@ -32,9 +32,9 @@ export const Registration = () => {
         const emailValidation = validation.email(email)
         const passwordValidation = validation.password(password)
         if (emailValidation.length > 0) {
-            dispatch(setError(emailValidation))
+            dispatch(setRegistrationError(emailValidation))
         } else if (passwordValidation.length > 0) {
-            dispatch(setError(passwordValidation))
+            dispatch(setRegistrationError(passwordValidation))
         } else {
             dispatch(registrationThunk(email, password, confPassword))
         }

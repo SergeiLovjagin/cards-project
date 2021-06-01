@@ -8,7 +8,7 @@
 
   .wrap {
     padding: 1.5rem 1.5rem 1.5rem 2.5rem;
-    margin: 1rem 0 2rem;
+    margin: 3.8rem 0 2.6rem;
 
     width: 25rem;
     height: 34rem;
@@ -30,7 +30,6 @@
     @include text-edit(SF UI Display, 500, 1.0rem, 1.5);
 
     color: #24254A;
-
 
     text-align: left;
   }
@@ -60,13 +59,12 @@
       position: absolute;
       top: 15px;
       right: 13px;
+
       &:hover{
         font-weight: 400;
         text-shadow: none;
         box-shadow: none;
-
       }
-
       border:none;
       background-color: transparent;
 

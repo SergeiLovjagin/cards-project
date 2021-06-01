@@ -3,7 +3,7 @@ import {SuperInputText} from "../../../n1-main/m1-ui/common/SuperInput/SuperInpu
 import {SuperButton} from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import SuperCheckbox from "../../../n1-main/m1-ui/common/SuperCheckbox/SuperCheckbox";
 import {useDispatch, useSelector} from "react-redux";
-import {loginThunk} from "../../../n1-main/m2-bll/loginReducer";
+import {InitialStateType as LoginStateType, loginThunk} from "../../../n1-main/m2-bll/loginReducer";
 import {RootReducerType} from "../../../n1-main/m2-bll/store";
 import {Redirect, useHistory} from "react-router-dom";
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
@@ -22,7 +22,7 @@ export const Login = () => {
         loading,
         success,
         error
-    } = useSelector<RootReducerType, { loading: boolean, success: boolean, error: string }>(state => state.login);
+    } = useSelector<RootReducerType, LoginStateType>(state => state.login);
 
     //HANDLERS
     const onLoginButtonHandler = async () => {
@@ -50,11 +50,11 @@ export const Login = () => {
                 <Logo/>
                 <h1 className={s.title}>Sign in</h1>
                 <p className={s.emailText}>Email</p>
-                <SuperInputText className={s.input} placeholder={'j&johnson@gmail.com'}
+                <SuperInputText className={s.input} placeholder={'j&johnson@gmail.com'} value={email}
                                 onChangeText={(email) => setEmail(email)}/>
                 <div className={s.passwordBox}>
                     <p className={s.passwordText}>Password</p>
-                    <SuperInputText className={s.input} placeholder={'********'}
+                    <SuperInputText className={s.input} placeholder={'********'} value={password}
                                     onChangeText={(password) => setPassword(password)}/>
                     <button className={s.btnShow}><img src={eyeIcon} alt="eye-Icon"/></button>
 
@@ -64,7 +64,7 @@ export const Login = () => {
                     <p className={s.rememberText}>Remember</p>
 
                 </div>
-                <SuperButton  disabled={loading} onClick={onLoginButtonHandler}>Login</SuperButton>
+                <SuperButton disabled={loading} onClick={onLoginButtonHandler}>Login</SuperButton>
 
                 <SuperButton disabled={loading} onClick={onRecoveryButtonHandler}>Forgot password</SuperButton>
                 <SuperButton disabled={loading} onClick={onRegistrationButtonHandler}>Sign Up</SuperButton>
