@@ -8,16 +8,16 @@ import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 
 export const Profile = () => {
     //HOOKS
-    const user = useSelector<RootReducerType, ProfileType>(state => state.profile.user)
-    const {loading, success, profileError} = useSelector<RootReducerType, { loading: boolean, success: boolean, profileError: string}>(state => state.profile);
-    const user_id = useSelector<RootReducerType,string>(state => state.profile.user._id)
+    const user = useSelector<RootReducerType, ProfileType | null>(state => state.profile.user)
+    const {loading, success, profileError} = useSelector<RootReducerType, { loading: boolean, success: boolean, profileError: string }>(state => state.profile);
+    const user_id = useSelector<RootReducerType, string | null | undefined>(state => state.profile.user?._id)
     const dispatch = useDispatch()
 
     useEffect(() => {
         if (user_id === undefined) {
             dispatch(authMe())
         }
-    }, [user_id])
+    }, [user_id, dispatch])
 
     if (success && user_id === undefined) {
         return <Redirect to={PATH.LOGIN}/>
@@ -27,11 +27,13 @@ export const Profile = () => {
         <div>
             {loading && <div>LOADING......</div>}
             {profileError.length > 0 && <div>{profileError}</div>}
-            {success && user_id &&
+            {success && user_id && profileError.length === 0 &&
             <>
                 Profile Page
-                {Object.entries(user)
-                    .map((el, index) => <div key={index}>{el[0]} : {el[1]}</div>)}
+                {
+                    user &&
+                    Object.entries(user)
+                        .map((el, index) => <div key={index}>{el[0]} : {el[1]}</div>)}
             </>
             }
         </div>
