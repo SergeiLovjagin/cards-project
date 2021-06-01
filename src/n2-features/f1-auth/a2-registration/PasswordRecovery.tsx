@@ -12,7 +12,7 @@ export const PasswordRecovery = () => {
                 <h1 className={s.title}>Sign in</h1>
                 <SuperInputText className={s.input} placeholder={'Email'}/>
                 <p className={s.textDiscr}>Enter your email address and we will send you further instructions </p>
-                <SuperButton className={s.btnSend}  >Login</SuperButton>
+                <SuperButton className={s.btnSend} >Send Instructions</SuperButton>
                 <p className={s.txtQuestion}>Did you remember your password?</p>
                 <SuperButton className={s.btnLogging}>Try logging in</SuperButton>
             </div>
