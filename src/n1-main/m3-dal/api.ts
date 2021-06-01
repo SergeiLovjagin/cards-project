@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:7542/2.0/',
+    // baseURL: 'http://localhost:7542/2.0/',
+    baseURL: 'https://neko-back.herokuapp.com/2.0',
     withCredentials: true
 });
 
@@ -14,6 +15,10 @@ export const API = {
     },
     async authMe(){
         return await instance.post('auth/me')
+    },
+    async forgot(email: string){
+        return await instance.post('/auth/forgot', {email: email, from: "test-front-admin <litvincevi@mail.ru>",
+            message: `<div style="background-color: lime; padding: 15px"> password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a></div>`}, {})
     }
 }
 

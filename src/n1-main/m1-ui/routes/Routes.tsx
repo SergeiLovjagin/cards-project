@@ -1,7 +1,7 @@
 import React from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Login} from "../../../n2-features/f1-auth/a1-login/Login";
-import {PasswordRecovery} from "../../../n2-features/f1-auth/a2-registration/PasswordRecovery";
+import {PasswordRecovery} from "../../../n2-features/f1-auth/a3-passwordRecovery/PasswordRecovery";
 import {Registration} from "../../../n2-features/f1-auth/a2-registration/Registration";
 import {Profile} from "../../../n2-features/f2-profile/Profile";
 import {Page404} from "../../../n2-features/f3-error/Page404";
