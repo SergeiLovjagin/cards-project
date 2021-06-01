@@ -13,7 +13,7 @@ export const PasswordRecovery = () => {
     // HOOKS
     const [email, setEmail] = useState("")
     const dispatch = useDispatch();
-    const {success, loading, error} = useSelector<RootReducerType, {success: boolean, loading: boolean, error: string}>( (state) => state.passRecoveryReducer)
+    const {success, loading, error} = useSelector<RootReducerType, {success: boolean, loading: boolean, error: string}>( (state) => state.passRecovery)
 
     // HANDLERS
     const onEmailButtonHandler = () => {

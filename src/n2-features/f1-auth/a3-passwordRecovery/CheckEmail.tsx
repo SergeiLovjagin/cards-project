@@ -1,7 +1,7 @@
 
 
 type CheckEmailType = {
-    email: string
+    email?: string
 }
 
 export const CheckEmail = (props: CheckEmailType) => {

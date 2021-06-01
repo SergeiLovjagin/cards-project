@@ -19,6 +19,9 @@ export const API = {
     async forgot(email: string){
         return await instance.post('/auth/forgot', {email: email, from: "test-front-admin <litvincevi@mail.ru>",
             message: `<div style="background-color: lime; padding: 15px"> password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a></div>`}, {})
+    },
+    async newPassword(password: string, resetPasswordToken: string) {
+        return await instance.post('/auth/set-new-password', {password: password, resetPasswordToken: resetPasswordToken})
     }
 }
 
