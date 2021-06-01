@@ -10,10 +10,13 @@ export const API = {
         return await instance.post<ProfileType>(`auth/login`, {email: email, password: password, rememberMe: rememberMe}, {})
     },
     async registration(email: string, password: string) {
-        return await instance.post('auth/register', {email : email, password : password})
+        return await instance.post('auth/register', {email: email, password: password})
     },
-    async authMe(){
+    async authMe() {
         return await instance.post('auth/me')
+    },
+    async logOut() {
+        return await instance.delete('auth/me')
     }
 }
 
