@@ -1,6 +1,6 @@
 import {ThunkAction} from "redux-thunk";
 import {API} from "../m3-dal/api";
-import {setProfile, setProfileError, SetProfileErrorType, SetProfileType} from "./profileReducer";
+import {ActionType as ProfileActionType, setProfile, setProfileError, SetProfileErrorType, setProfileSuccess as setSuccessProfile, SetProfileType} from "./profileReducer";
 import {RootReducerType} from "./store";
 
 const initialState = {
@@ -10,11 +10,11 @@ const initialState = {
 }
 export const loginReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
-        case "LOGIN/SET-ERROR":
+        case "LOGIN/SET-LOGIN-ERROR":
             return {...state, error: action.error}
-        case "LOGIN/SET-LOADING":
+        case "LOGIN/SET-LOGIN-LOADING":
             return {...state, loading: action.loading}
-        case "LOGIN/SET-SUCCESS":
+        case "LOGIN/SET-LOGIN-SUCCESS":
             return {...state, success: action.success}
         default:
             return state
@@ -22,42 +22,55 @@ export const loginReducer = (state: InitialStateType = initialState, action: Act
 }
 
 //ACTIONS
-const setError = (error: string) => ({type: "LOGIN/SET-ERROR", error} as const)
-const setSuccess = (success: boolean) => ({type: "LOGIN/SET-SUCCESS", success} as const)
-const setLoading = (loading: boolean) => ({type: "LOGIN/SET-LOADING", loading} as const)
+const setLoginError = (error: string) => ({type: "LOGIN/SET-LOGIN-ERROR", error} as const)
+const setLoginSuccess = (success: boolean) => ({type: "LOGIN/SET-LOGIN-SUCCESS", success} as const)
+const setLoginLoading = (loading: boolean) => ({type: "LOGIN/SET-LOGIN-LOADING", loading} as const)
 
 //THUNKS
 export const loginThunk = (email: string, pass: string, remember: boolean): ThunkType => async (dispatch) => {
-    dispatch(setError(''))
-    dispatch(setLoading(true))
+    dispatch(setLoginError(''))
+    dispatch(setLoginLoading(true))
     try {
         const response = await API.login(email, pass, remember)
         dispatch(setProfile(response.data))
-        dispatch(setSuccess(true))
+        dispatch(setLoginSuccess(true))
+        dispatch(setSuccessProfile(true))
         dispatch(setProfileError(''))
     } catch (e) {
         const error = e.response
             ? e.response.data.error
             : (e.message + ', more details in the console');
-        dispatch(setError(error))
+        dispatch(setLoginError(error))
     } finally {
-        dispatch(setLoading(false))
+        dispatch(setLoginLoading(false))
     }
 }
 
 export const logoutThunk = (): ThunkType => async (dispatch) => {
+    dispatch(setLoginLoading(true))
     try {
         await API.logOut()
-        dispatch(setSuccess(false))
+        dispatch(setLoginSuccess(false))
+        dispatch(setProfile(null))
     } catch (e) {
-        console.log('Error while logging out')
+        const error = e.response
+            ? e.response.data.error
+            : (e.message + ', more details in the console');
+        dispatch(setLoginError(error))
+    } finally {
+        dispatch(setLoginLoading(false))
     }
 }
 
 //TYPES
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 type ThunkType = ThunkAction<void, RootReducerType, {}, ActionType>
-type SetErrorType = ReturnType<typeof setError>
-type SetSuccessType = ReturnType<typeof setSuccess>
-type SetLoadingType = ReturnType<typeof setLoading>
-type ActionType = SetErrorType | SetSuccessType | SetLoadingType | SetProfileType | SetProfileErrorType
+type SetErrorType = ReturnType<typeof setLoginError>
+type SetSuccessType = ReturnType<typeof setLoginSuccess>
+type SetLoadingType = ReturnType<typeof setLoginLoading>
+type ActionType = SetErrorType
+    | SetSuccessType
+    | SetLoadingType
+    | SetProfileType
+    | SetProfileErrorType
+    | ProfileActionType
