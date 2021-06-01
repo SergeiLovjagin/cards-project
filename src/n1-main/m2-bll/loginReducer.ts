@@ -1,6 +1,6 @@
 import {ThunkAction} from "redux-thunk";
 import {API} from "../m3-dal/api";
-import {setProfile, SetProfileType} from "./profileReducer";
+import {setProfile, setProfileError, SetProfileErrorType, SetProfileType} from "./profileReducer";
 import {RootReducerType} from "./store";
 
 const initialState = {
@@ -34,6 +34,7 @@ export const loginThunk = (email: string, pass: string, remember: boolean): Thun
         const response = await API.login(email, pass, remember)
         dispatch(setProfile(response.data))
         dispatch(setSuccess(true))
+        dispatch(setProfileError(''))
     } catch (e) {
         const error = e.response
             ? e.response.data.error
@@ -44,10 +45,19 @@ export const loginThunk = (email: string, pass: string, remember: boolean): Thun
     }
 }
 
+export const logoutThunk = (): ThunkType => async (dispatch) => {
+    try {
+        await API.logOut()
+        dispatch(setSuccess(false))
+    } catch (e) {
+        console.log('Error while logging out')
+    }
+}
+
 //TYPES
 type InitialStateType = typeof initialState
 type ThunkType = ThunkAction<void, RootReducerType, {}, ActionType>
 type SetErrorType = ReturnType<typeof setError>
 type SetSuccessType = ReturnType<typeof setSuccess>
 type SetLoadingType = ReturnType<typeof setLoading>
-type ActionType = SetErrorType | SetSuccessType | SetLoadingType | SetProfileType
+type ActionType = SetErrorType | SetSuccessType | SetLoadingType | SetProfileType | SetProfileErrorType

@@ -22,6 +22,9 @@ export const API = {
     },
     async newPassword(password: string, resetPasswordToken: string) {
         return await instance.post('/auth/set-new-password', {password: password, resetPasswordToken: resetPasswordToken})
+    },
+    async logOut() {
+        return await instance.delete('auth/me')
     }
 }
 

@@ -6,15 +6,15 @@ const initialState = {
     user: {} as ProfileType,
     loading: false,
     success: false,
-    error: ''
+    profileError: '',
 }
 
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case "PROFILE/SET-PROFILE":
             return {...state, user: action.data}
-        case "PROFILE/SET-ERROR":
-            return {...state, error: action.error}
+        case "PROFILE/SET-PROFILE-ERROR":
+            return {...state, profileError: action.profileError}
         case "PROFILE/SET-LOADING":
             return {...state, loading: action.loading}
         case "PROFILE/SET-SUCCESS":
@@ -27,7 +27,7 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
 export const setProfile = (data: ProfileType) => ({type: 'PROFILE/SET-PROFILE', data} as const)
 const setLoading = (loading: boolean) => ({type: "PROFILE/SET-LOADING", loading} as const)
 const setSuccess = (success: boolean) => ({type: "PROFILE/SET-SUCCESS", success} as const)
-export const setError = (error: string) => ({type: "PROFILE/SET-ERROR", error} as const)
+export const setProfileError = (profileError: string) => ({type: "PROFILE/SET-PROFILE-ERROR", profileError} as const)
 
 //THUNKS
 export const authMe = (): ThunkType => async (dispatch) => {
@@ -35,14 +35,14 @@ export const authMe = (): ThunkType => async (dispatch) => {
     try {
         const response = await API.authMe()
         dispatch(setProfile(response.data))
-        dispatch(setSuccess(true))
     } catch (e) {
         const error = e.response
             ? e.response.data.error
             : (e.message + ', more details in the console');
-        dispatch(setError(error))
+        dispatch(setProfileError(error))
     } finally {
         dispatch(setLoading(false))
+        dispatch(setSuccess(true))
     }
 }
 
@@ -50,7 +50,7 @@ export const authMe = (): ThunkType => async (dispatch) => {
 type ThunkType = ThunkAction<void, RootReducerType, {}, ActionType>
 type InitialStateType = typeof initialState
 export type SetProfileType = ReturnType<typeof setProfile>
-type SetErrorType = ReturnType<typeof setError>
+export type SetProfileErrorType = ReturnType<typeof setProfileError>
 type SetSuccessType = ReturnType<typeof setSuccess>
 type SetLoadingType = ReturnType<typeof setLoading>
-type ActionType = SetProfileType | SetLoadingType | SetErrorType | SetSuccessType
+type ActionType = SetProfileType | SetLoadingType | SetProfileErrorType | SetSuccessType
