@@ -35,14 +35,30 @@ export const authMe = (): ThunkType => async (dispatch) => {
     try {
         const response = await API.authMe()
         dispatch(setProfile(response.data))
-        dispatch(setProfileSuccess(true))
     } catch (e) {
         const error = e.response
             ? e.response.data.error
             : (e.message + ', more details in the console');
         dispatch(setProfileError(error))
     } finally {
+        dispatch(setProfileSuccess(true))
         dispatch(setProfileLoading(false))
+    }
+}
+
+export const updateProfile = (name: string | null, avatar: string): ThunkType => async (dispatch) => {
+    dispatch(setProfileLoading(true))
+    try {
+        await API.updateProfile(name, avatar)
+        dispatch(authMe())
+    } catch (e) {
+        const error = e.response
+            ? e.response.data.error
+            : (e.message + ', more details in the console');
+        dispatch(setProfileError(error))
+    } finally {
+        //dispatch(setProfileSuccess(true))
+        //dispatch(setProfileLoading(false))
     }
 }
 

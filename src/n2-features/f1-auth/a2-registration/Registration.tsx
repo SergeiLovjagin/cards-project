@@ -6,10 +6,10 @@ import {Redirect, useHistory} from "react-router-dom";
 import {registrationThunk, setRegistrationError} from "../../../n1-main/m2-bll/registrationReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootReducerType} from "../../../n1-main/m2-bll/store";
-import {validation} from "../../../n1-main/m1-ui/common/utills/validation";
 import s from "./Registration.module.scss";
 import Logo from "../../../n1-main/m1-ui/common/logo/Logo";
 import eyeIcon from "./../../../assets/images/icons/eye.png";
+import {PopUp} from "../../../n1-main/m1-ui/common/utills/modal-popUp/PopUp";
 
 export const Registration = () => {
     //HOOKS
@@ -29,17 +29,11 @@ export const Registration = () => {
         history.push(PATH.LOGIN)
     };
     const onRegisterButtonHandler = () => {
-        const emailValidation = validation.email(email)
-        const passwordValidation = validation.password(password)
-        if (emailValidation.length > 0) {
-            dispatch(setRegistrationError(emailValidation))
-        } else if (passwordValidation.length > 0) {
-            dispatch(setRegistrationError(passwordValidation))
-        } else {
-            dispatch(registrationThunk(email, password, confPassword))
-        }
+        dispatch(registrationThunk(email, password, confPassword))
     };
-
+    const onClosePopUpHandler = () => {
+        dispatch(setRegistrationError(''))
+    }
     if (success) {
         return <Redirect to={PATH.LOGIN}/>
     }
@@ -50,7 +44,7 @@ export const Registration = () => {
                     loading && <div>LOADING......</div>
                 }
                 {
-                    error.length > 0 && <div>{error}</div>
+                    error.length > 0 && <PopUp setServerErrorCallback={onClosePopUpHandler} text={error}/>
                 }
                 <Logo/>
                 <h1 className={s.title}>Sign up</h1>
@@ -59,13 +53,13 @@ export const Registration = () => {
                                 onChangeText={(email: string) => setEmail(email)}/>
                 <div className={s.passwordBox}>
                     <p className={s.passwordText}>Password</p>
-                    <SuperInputText className={s.input} placeholder={'********'}
+                    <SuperInputText className={s.input} placeholder={'********'} type={'password'}
                                     onChangeText={(password: string) => setPassword(password)}/>
                     <button className={s.btnShow}><img src={eyeIcon} alt="eye-Icon"/></button>
                 </div>
                 <div className={s.passwordBox}>
                     <p className={s.confirmText}>Confirm password</p>
-                    <SuperInputText placeholder={'********'} className={s.input}
+                    <SuperInputText placeholder={'********'} className={s.input} type={'password'}
                                     onChangeText={(password: string) => setConfPassword(password)}/>
                     <button className={s.btnShow}><img src={eyeIcon} alt="eye-Icon"/></button>
                 </div>

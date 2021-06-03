@@ -1,6 +1,7 @@
 import {ThunkAction} from "redux-thunk";
 import {RootReducerType} from "./store";
 import {API} from "../m3-dal/api";
+import {validation} from "../m1-ui/common/utills/validation";
 
 const initialState = {
     loading: false,
@@ -28,7 +29,13 @@ export const setRegistrationError = (error: string) => ({type: "REGISTRATION/SET
 
 //THUNKS
 export const registrationThunk = (email: string, password: string, confPassword: string): ThunkType => async (dispatch) => {
-    if (password !== confPassword) {
+    const emailValidation = validation.email(email)
+    const passwordValidation = validation.password(password)
+    if (emailValidation.length > 0) {
+        dispatch(setRegistrationError(emailValidation))
+    } else if (passwordValidation.length > 0) {
+        dispatch(setRegistrationError(passwordValidation))
+    } else if (password !== confPassword) {
         dispatch(setRegistrationError('Passwords don\'t match!'))
     } else {
         dispatch(setRegistrationError(''))

@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:7542/2.0/',
-    //baseURL: 'https://neko-back.herokuapp.com/2.0',
+    //baseURL: 'http://localhost:7542/2.0/',
+    baseURL: 'https://neko-back.herokuapp.com/2.0/',
     withCredentials: true
 });
 
@@ -11,20 +11,25 @@ export const API = {
         return await instance.post<ProfileType>(`auth/login`, {email: email, password: password, rememberMe: rememberMe}, {})
     },
     async registration(email: string, password: string) {
-        return await instance.post('auth/register', {email : email, password : password})
+        return await instance.post('auth/register', {email: email, password: password})
     },
-    async authMe(){
-        return await instance.post('auth/me')
+    async authMe() {
+        return await instance.post<ProfileType>('auth/me')
     },
-    async forgot(email: string){
-        return await instance.post('/auth/forgot', {email: email, from: "test-front-admin <litvincevi@mail.ru>",
-            message: `<div style="background-color: lime; padding: 15px"> password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a></div>`}, {})
+    async forgot(email: string) {
+        return await instance.post('auth/forgot', {
+            email: email, from: "test-front-admin <litvincevi@mail.ru>",
+            message: `<div style="background-color: lime; padding: 15px"> password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a></div>`
+        }, {})
     },
     async newPassword(password: string, resetPasswordToken: string) {
-        return await instance.post('/auth/set-new-password', {password: password, resetPasswordToken: resetPasswordToken})
+        return await instance.post('auth/set-new-password', {password: password, resetPasswordToken: resetPasswordToken})
     },
     async logOut() {
         return await instance.delete('auth/me')
+    },
+    async updateProfile(name: string | null, avatar: string) {
+        return await instance.put('auth/me', {name: name, avatar: avatar})
     }
 }
 
