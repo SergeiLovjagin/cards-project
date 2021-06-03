@@ -4,10 +4,11 @@ import {SuperButton} from "../../../n1-main/m1-ui/common/SuperButton/SuperButton
 import { NavLink } from "react-router-dom";
 import {PATH} from "../../../n1-main/m1-ui/routes/Routes";
 import {useDispatch, useSelector} from "react-redux";
-import {passRecoveryThunk} from "../../../n1-main/m2-bll/passRecoveryReducer";
+import {passRecoveryThunk, setPassRecoveryError} from "../../../n1-main/m2-bll/passRecoveryReducer";
 import {RootReducerType} from "../../../n1-main/m2-bll/store";
 import { CheckEmail } from "./CheckEmail";
 import s from "./PasswordRecovery.module.scss";
+import {PopUp} from "../../../n1-main/m1-ui/common/utills/modal-popUp/PopUp";
 
 export const PasswordRecovery = () => {
 
@@ -19,6 +20,9 @@ export const PasswordRecovery = () => {
     // HANDLERS
     const onEmailButtonHandler = () => {
         dispatch(passRecoveryThunk(email))
+    }
+    const onClosePopUpHandler = () => {
+        dispatch(setPassRecoveryError(''))
     }
 
     if (success) {
@@ -33,7 +37,7 @@ export const PasswordRecovery = () => {
         <div className={s.RecoveryPage}>
             <div className={s.wrap}>
             { loading && <div>Loading...</div> }
-            { error && error }
+            { error && <PopUp setServerErrorCallback={onClosePopUpHandler} text={error}/> }
             <h2 className={s.title}>Forgot your password?</h2>
             <SuperInputText className={s.input} placeholder={'Email'}  onChangeText={ (email) => setEmail(email) }/>
             <p className={s.textDiscr}>Enter yor email address and we will send you further instructions</p>

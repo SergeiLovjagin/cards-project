@@ -3,8 +3,9 @@ import {SuperInputText} from "../../../n1-main/m1-ui/common/SuperInput/SuperInpu
 import {SuperButton} from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {RootReducerType} from "../../../n1-main/m2-bll/store";
-import { newPasswordThunk } from "../../../n1-main/m2-bll/newPasswordReducer";
+import {newPasswordThunk, setNewPasswordError} from "../../../n1-main/m2-bll/newPasswordReducer";
 import {Redirect, useParams} from 'react-router-dom'
+import {PopUp} from "../../../n1-main/m1-ui/common/utills/modal-popUp/PopUp";
 
 export const NewPasswordForm = () => {
 
@@ -18,6 +19,9 @@ export const NewPasswordForm = () => {
     const onNewPasswordButtonHandler = () => {
         dispatch(newPasswordThunk(password, resetPasswordToken))
     }
+    const onClosePopupHandler = () => {
+        dispatch(setNewPasswordError(''))
+    }
 
     if (success) {
         return (
@@ -28,9 +32,10 @@ export const NewPasswordForm = () => {
     }
 
     return (
+
         <div>
             {loading && <div>Loading...</div>}
-            {error && error}
+            {error && <PopUp setServerErrorCallback={onClosePopupHandler} text={error}/>}
             <h2>IT-INCUBATOR</h2>
             <h3>Create new password</h3>
             <SuperInputText onChangeText={(password) => setPassword(password)} />
@@ -38,7 +43,6 @@ export const NewPasswordForm = () => {
             <div>
                 <SuperButton onClick={onNewPasswordButtonHandler}>Create new password</SuperButton>
             </div>
-
         </div>
     )
 }
