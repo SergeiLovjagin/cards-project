@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {passRecoveryThunk} from "../../../n1-main/m2-bll/passRecoveryReducer";
 import {RootReducerType} from "../../../n1-main/m2-bll/store";
 import { CheckEmail } from "./CheckEmail";
+import s from "./PasswordRecovery.module.scss";
 
 export const PasswordRecovery = () => {
 
@@ -29,15 +30,17 @@ export const PasswordRecovery = () => {
     }
 
     return (
-        <div>
+        <div className={s.RecoveryPage}>
+            <div className={s.wrap}>
             { loading && <div>Loading...</div> }
             { error && error }
-            <div>Forgot your password?</div>
-            <SuperInputText onChangeText={ (email) => setEmail(email) }/>
-            <div>Enter yor email address and we will send you further instructions</div>
-            <SuperButton onClick={onEmailButtonHandler} >Send instructions</SuperButton>
-            <div>Did you remember your password?</div>
-            <NavLink to={PATH.LOGIN}>Try logging in</NavLink>
+            <h2 className={s.title}>Forgot your password?</h2>
+            <SuperInputText className={s.input} placeholder={'Email'}  onChangeText={ (email) => setEmail(email) }/>
+            <p className={s.textDiscr}>Enter yor email address and we will send you further instructions</p>
+            <SuperButton className={s.btnSend} onClick={onEmailButtonHandler} >Send instructions</SuperButton>
+            <p className={s.txtQuestion}>Did you remember your password?</p>
+            <NavLink className={s.btnLogging} to={PATH.LOGIN}>Try logging in</NavLink>
+            </div>
         </div>
     )
 }
