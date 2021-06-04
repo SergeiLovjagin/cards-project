@@ -3,8 +3,9 @@ import {SuperInputText} from "../../../n1-main/m1-ui/common/SuperInput/SuperInpu
 import {SuperButton} from "../../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {RootReducerType} from "../../../n1-main/m2-bll/store";
-import {newPasswordThunk} from "../../../n1-main/m2-bll/newPasswordReducer";
+import {newPasswordThunk, setNewPasswordError} from "../../../n1-main/m2-bll/newPasswordReducer";
 import {Redirect, useParams} from 'react-router-dom'
+import {PopUp} from "../../../n1-main/m1-ui/common/utills/modal-popUp/PopUp";
 import s from './NewPasswordForm.module.scss'
 import eyeIcon from "../../../assets/images/icons/eye.png";
 import Logo from "../../../n1-main/m1-ui/common/logo/Logo";
@@ -21,6 +22,9 @@ export const NewPasswordForm = () => {
     const onNewPasswordButtonHandler = () => {
         dispatch(newPasswordThunk(password, resetPasswordToken))
     }
+    const onClosePopupHandler = () => {
+        dispatch(setNewPasswordError(''))
+    }
 
     if (success) {
         return (
@@ -36,7 +40,7 @@ export const NewPasswordForm = () => {
                 <div className={s.wrap}>
                     <Logo/>
                     {loading && <div>Loading...</div>}
-                    {error && error}
+                    {error && <PopUp setServerErrorCallback={onClosePopupHandler} text={error}/>}
                     <h1 className={s.title}>Create new password</h1>
                     <div className={s.passwordBox}>
                         <SuperInputText onChangeText={(password) => setPassword(password)}
@@ -50,6 +54,7 @@ export const NewPasswordForm = () => {
                     <SuperButton className={s.btnCreate} onClick={onNewPasswordButtonHandler}>Create new password</SuperButton>
                 </div>
             </div>
+
         </div>
     )
 }

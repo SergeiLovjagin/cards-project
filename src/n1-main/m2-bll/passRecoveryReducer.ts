@@ -1,5 +1,8 @@
 import {Dispatch} from "redux";
 import {API} from "../m3-dal/api";
+import {ThunkAction} from "redux-thunk";
+import {RootReducerType} from "./store";
+import {validation} from "../m1-ui/common/utills/validation";
 
 
 const initialState = {
@@ -22,30 +25,37 @@ export const passRecoveryReducer = (state: InitialStateType = initialState, acti
 }
 
 // ACTIONS
-const setSuccess = (success: boolean) => ({type: 'RECOVERY/SET_SUCCESS', success}) as const
-const setError = (error: string) => ({type: 'RECOVERY/SET_ERROR', error}) as const
-const setLoading = (loading: boolean) => ({type: 'RECOVERY/SET_LOADING', loading}) as const
+const setPassRecoverySuccess = (success: boolean) => ({type: 'RECOVERY/SET_SUCCESS', success}) as const
+export const setPassRecoveryError = (error: string) => ({type: 'RECOVERY/SET_ERROR', error}) as const
+const setPassRecoveryLoading = (loading: boolean) => ({type: 'RECOVERY/SET_LOADING', loading}) as const
 
 // THUNKS
-export const passRecoveryThunk = (email: string) => async (dispatch: Dispatch<ActionType>) => {
-    dispatch(setError(''))
-    dispatch(setLoading(true))
-    try {
-        await API.forgot(email)
-        dispatch(setSuccess(true))
-    } catch (e) {
-        const error = e.response
-            ? e.response.data.error
-            : (e.message + ', more details in the console')
-        dispatch(setError(error))
-    } finally {
-        dispatch(setLoading(false))
+export const passRecoveryThunk = (email: string): ThunkType => async (dispatch: Dispatch<ActionType>) => {
+    const emailValidation = validation.email(email)
+    if (emailValidation.length > 0) {
+
+        dispatch(setPassRecoveryError(emailValidation))
+    } else {
+        dispatch(setPassRecoveryError(''))
+        dispatch(setPassRecoveryLoading(true))
+        try {
+            await API.forgot(email)
+            dispatch(setPassRecoverySuccess(true))
+        } catch (e) {
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console')
+            dispatch(setPassRecoveryError(error))
+        } finally {
+            dispatch(setPassRecoveryLoading(false))
+        }
     }
 }
 
 // TYPES
 type InitialStateType = typeof initialState
-type setSuccessType = ReturnType<typeof setSuccess>
-type setErrorType = ReturnType<typeof setError>
-type setLoadingType = ReturnType<typeof setLoading>
-type ActionType = setSuccessType | setErrorType | setLoadingType
+type setPassRecoverySuccessType = ReturnType<typeof setPassRecoverySuccess>
+type setPassRecoveryErrorType = ReturnType<typeof setPassRecoveryError>
+type setPassRecoveryLoadingType = ReturnType<typeof setPassRecoveryLoading>
+type ThunkType = ThunkAction<void, RootReducerType, {}, ActionType>
+type ActionType = setPassRecoverySuccessType | setPassRecoveryErrorType | setPassRecoveryLoadingType
