@@ -5,6 +5,8 @@ import {registrationReducer} from "./registrationReducer";
 import {passRecoveryReducer} from "./passRecoveryReducer";
 import thunk from "redux-thunk";
 import {newPasswordReducer} from "./newPasswordReducer";
+import {packsReducer} from "./packsReducer";
+import {cardsReducer} from "./cardsReducer";
 
 export type RootReducerType = ReturnType<typeof rootReducer>
 
@@ -13,7 +15,10 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     registration: registrationReducer,
     passRecovery: passRecoveryReducer,
-    newPassword: newPasswordReducer
+    newPassword: newPasswordReducer,
+    packs: packsReducer,
+    cards: cardsReducer
+
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk))
