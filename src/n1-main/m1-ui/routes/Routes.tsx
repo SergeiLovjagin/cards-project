@@ -6,6 +6,8 @@ import {Registration} from "../../../n2-features/f1-auth/a2-registration/Registr
 import {Profile} from "../../../n2-features/f2-profile/Profile";
 import {Page404} from "../../../n2-features/f3-error/Page404";
 import { NewPasswordForm } from "../../../n2-features/f1-auth/a3-passwordRecovery/NewPaswordForm";
+import {Packs} from "../../../n2-features/f4-packs/Packs";
+import {Cards} from "../../../n2-features/f5-cards/Cards";
 
 export const PATH = {
     LOGIN: '/login',
@@ -13,7 +15,9 @@ export const PATH = {
     RECOVERY: '/recovery',
     PROFILE: '/profile',
     ERROR: '/404',
-    // NEW_PASSWORD: '/set-new-password'
+    PACKS: '/f4-packs',
+    CARDS: '/f5-cards',
+    NEW_PASSWORD: '/set-new-password'
 }
 
 export const Routes = () => {
@@ -24,8 +28,9 @@ export const Routes = () => {
                 <Route path={PATH.REGISTRATION} render={() => <Registration/>}/>
                 <Route path={PATH.RECOVERY} render={() => <PasswordRecovery/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
-                {/*<Route path={PATH.NEW_PASSWORD} render={() => <NewPasswordForm/>}/>*/}
-                <Route path='/set-new-password/:resetPasswordToken'>
+                <Route path={PATH.PACKS} render={() => <Packs/>}/>
+                <Route path={PATH.CARDS} render={() => <Cards />}/>
+                <Route path={PATH.NEW_PASSWORD + `/:resetPasswordToken`}>
                     <NewPasswordForm/>
                 </Route>
                 <Redirect from={'/'} to={PATH.LOGIN}/>

@@ -18,6 +18,8 @@ export const Header = () => {
                         <NavLink to={PATH.REGISTRATION}>Registration</NavLink>
                         <NavLink to={PATH.RECOVERY}>Password Recovery</NavLink>
                         <NavLink to={PATH.PROFILE}>Profile</NavLink>
+                        <NavLink to={PATH.PACKS}>Packs</NavLink>
+                        <NavLink to={PATH.CARDS}>Cards</NavLink>
                         <NavLink to={PATH.ERROR}>404</NavLink>
                         <NavLink to={PATH.LOGIN} onClick={() => dispatch(logoutThunk())}>Logout</NavLink>
                     </nav>
