@@ -1,5 +1,5 @@
 import axios from "axios";
-import {OneCardPackType} from "../m2-bll/packsReducer";
+import {OneCardPackType, SortValuesType} from "../m2-bll/packsReducer";
 
 const instance = axios.create({
     //baseURL: 'http://localhost:7542/2.0/',
@@ -39,8 +39,10 @@ export const API = {
     async updateProfile(name: string | null, avatar: string) {
         return await instance.put('auth/me', {name: name, avatar: avatar})
     },
-    async setPacks() {
-        return await instance.get<PacksType>('/cards/pack?pageCount=150')
+    async getPacks(sortValues: SortValuesType) {
+        return await instance.get<PacksType>('/cards/pack', {
+            params: {...sortValues},
+        })
     },
     async addPack(packName: string) {
         return await instance.post('/cards/pack',
@@ -61,7 +63,7 @@ export const API = {
     async deletePack(packId: string) {
         return await instance.delete(`/cards/pack?id=${packId}`)
     },
-    async setCards(packId: string){
+    async setCards(packId: string) {
         return await instance.get<CardsType>(`/cards/card?cardsPack_id=${packId}`)
     }
 }
