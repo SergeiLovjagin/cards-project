@@ -4,7 +4,7 @@ import {SuperButton} from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {addPackThunk, CardPacksType, deletePackThunk, getPacksThunk} from "../../n1-main/m2-bll/packsReducer";
 import {RootReducerType} from "../../n1-main/m2-bll/store";
-import style from './Packs.module.css'
+import s from './Packs.module.scss'
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
 import {setCardsThunk} from "../../n1-main/m2-bll/cardsReducer";
@@ -64,56 +64,85 @@ export const Packs = () => {
 
 
     return (
-        <div>
-            <MultiRangeSlider min={0} max={50} onChangeMinMaxValues={onChangeMinMaxValues}/>
-            Number of cards
-            <div>
-                <SuperButton disabled={privateFilter === "private"} onClick={() => onChangePrivatePackFilter('private')}>My</SuperButton>
-                <SuperButton disabled={privateFilter === "all"} onClick={() => onChangePrivatePackFilter('all')}>All</SuperButton>
+        <div className={s.packs}>
+            <div className={s.wrap}>
+                <div className={s.sidebar}>
+                    <h3 className={s.btnTitle}>Show packs cards</h3>
+                    <div className={s.btnBox}>
+                        <SuperButton className={s.btn} disabled={privateFilter === "private"}
+                                     onClick={() => onChangePrivatePackFilter('private')}>My</SuperButton>
+                        <SuperButton className={s.btn} disabled={privateFilter === "all"}
+                                     onClick={() => onChangePrivatePackFilter('all')}>All</SuperButton>
+                    </div>
+                    <h3 className={s.inputTitle}>Number of cards</h3>
+                    <MultiRangeSlider min={0} max={50} onChangeMinMaxValues={onChangeMinMaxValues}/>
+
+                </div>
+                <div className={s.listBlock}>
+                    <h2 className={s.listTitle}>Packs list</h2>
+                    <div className={s.addPack}>
+                        <div className={s.inputSearchWrap}>
+                            <SuperInputText className={s.inputSearch} placeholder={'Search...'}
+                                            onChange={handleChangeText} value={packName}/>
+                        </div>
+                        <SuperButton className={s.addBtn} onClick={handleAddPack}>Add new pack</SuperButton>
+                    </div>
+                    <div className={s.table}>
+                        <div className={s.tableHeader}>
+                            <div className={s.tableItem}>Name</div>
+                            <div className={s.tableItem}>Cards</div>
+                            <div className={s.tableItem}>Last Updated</div>
+                            <div className={s.tableItem}>Created by</div>
+                            <div className={s.tableItem}>Actions</div>
+                        </div>
+                        {
+                            packs.map((pack, index) => {
+                                // debugger
+                                return (
+                                    <div className={s.packRow} key={index}>
+
+                                        <div className={s.packRowItem}>
+
+                                            {pack.name}
+                                        </div>
+                                        <div className={s.packRowItem}>
+
+                                            {pack.cardsCount}
+                                        </div>
+                                        <div className={s.packRowItem}>
+
+                                            {pack.updated}
+                                        </div>
+                                        <div className={s.packRowItem}>
+
+                                            {pack.user_name}
+                                        </div>
+                                        <div className={s.packRowItem}>
+
+                                            <button className={s.packRowBtn} onClick={() => handleDeletePack(pack._id)}>Delete</button>
+                                            <NavLink className={s.packRowLink} to={PATH.CARDS}
+                                                     onClick={() => handleOnLearnButton(pack._id)}>Learn</NavLink>
+                                        </div>
+
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                    <div className={s.pagination}>
+                        <Pagination
+                            selectComponentClass={Select}
+                            showQuickJumper
+                            showSizeChanger
+                            onShowSizeChange={onChangeShowSize}
+                            onChange={onChangeShowSize}
+                            total={cardPackTotalCount}
+                            locale={localeInfo}
+                            pageSizeOptions={['10', '20', '50']}
+                        />
+                    </div>
+                </div>
             </div>
-            <h1>Packs list</h1>
-            <div>
-                <SuperInputText onChange={handleChangeText} value={packName}/>
-                <SuperButton onClick={handleAddPack}>Add new pack</SuperButton>
-            </div>
-            <div>
-                {
-                    packs.map((pack, index) => {
-                        return (
-                            <div className={style.packRow} key={index}>
-                                <div>
-                                    {pack.name}
-                                </div>
-                                <div>
-                                    {pack.cardsCount}
-                                </div>
-                                <div>
-                                    {pack.updated}
-                                </div>
-                                <div>
-                                    {pack.user_name}
-                                </div>
-                                <div>
-                                    <button onClick={() => handleDeletePack(pack._id)}>Delete</button>
-                                </div>
-                                <div>
-                                    <NavLink to={PATH.CARDS} onClick={() => handleOnLearnButton(pack._id)}>Learn</NavLink>
-                                </div>
-                            </div>
-                        )
-                    })
-                }
-            </div>
-            <Pagination
-                selectComponentClass={Select}
-                showQuickJumper
-                showSizeChanger
-                onShowSizeChange={onChangeShowSize}
-                onChange={onChangeShowSize}
-                total={cardPackTotalCount}
-                locale={localeInfo}
-                pageSizeOptions={['10', '20', '50']}
-            />
         </div>
     )
 }
