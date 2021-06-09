@@ -65,6 +65,20 @@ export const API = {
     },
     async setCards(packId: string) {
         return await instance.get<CardsType>(`/cards/card?cardsPack_id=${packId}`)
+    },
+    async addCard(packID: string, question: string, answer: string) {
+        return await instance.post('/cards/card',
+            {
+                card:
+                    {
+                        cardsPack_id: packID,
+                        question: question,
+                        answer: answer
+                    }
+            })
+    },
+    async deleteCard(cardId: string) {
+        return await instance.delete(`/cards/card?id=${cardId}`)
     }
 }
 
@@ -109,18 +123,22 @@ export type CardsType = {
 }
 
 export type OneCardType = {
-    answer: string
-    question: string
-    cardsPack_id: string
-    grade: number
-    rating: number
-    shots: number
-    type: string
-    user_id: string
-    created: string
-    updated: string
+    _id: string,
+    cardsPack_id: string,
+    user_id: string,
+    answer: string,
+    question: string,
+    grade: number,
+    shots: number,
+    questionImg: string,
+    answerImg: string,
+    answerVideo: string,
+    questionVideo: string,
+    comments: string,
+    type: string,
+    rating: number,
+    more_id: string,
+    created: string,
+    updated: string,
     __v: number
-    _id: string
-
-
 }

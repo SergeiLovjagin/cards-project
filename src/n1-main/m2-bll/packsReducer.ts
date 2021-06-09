@@ -7,11 +7,17 @@ import {RootReducerType} from "./store";
 let initialState = {
     packs: [] as CardPacksType,
     sortValues: {pageCount: 10} as SortValuesType,
-    cardPackTotalCount: 0
+    cardPackTotalCount: 0,
+    wantToAddPack: false,
+    loading: false
 }
 
 export const packsReducer = (state: initialStateType = initialState, action: ActionType): initialStateType => {
     switch (action.type) {
+        case "PACKS/SET-LOADING":
+            return {...state, loading: action.loading}
+        case "PACKS/OPEN-POPUP-TO-ADD-PACK":
+            return {...state, wantToAddPack: action.wantToAddPack}
         case "PACKS/DELETE-PACK":
             return {...state, packs: state.packs.filter((p) => p._id !== action.packId)}
         case 'PACKS/SET-PACKS': {
@@ -37,6 +43,8 @@ const addPack = (pack: OneCardPackType) => ({type: 'PACKS/ADD-PACK', pack} as co
 const deletePack = (packId: string) => ({type: 'PACKS/DELETE-PACK', packId} as const)
 const setCardPackTotalCount = (count: number) => ({type: 'PACKS/SET-TOTAL-PACK-COUNT', count} as const)
 export const setFilterValues = (values: SortValuesType) => ({type: 'PACKS/SET-FILTER-VALUES', values} as const)
+export const openPopUpAddPack = (wantToAddPack: boolean) => ({type: 'PACKS/OPEN-POPUP-TO-ADD-PACK', wantToAddPack} as const)
+export const setPacksLoading = (loading: boolean) => ({type: 'PACKS/SET-LOADING', loading} as const)
 
 
 // TYPES
@@ -47,6 +55,8 @@ type ActionType =
     | ReturnType<typeof deletePack>
     | ReturnType<typeof setCardPackTotalCount>
     | ReturnType<typeof setFilterValues>
+    | ReturnType<typeof openPopUpAddPack>
+    | ReturnType<typeof setPacksLoading>
 export type OneCardPackType = {
     cardsCount: number
     created: string
@@ -90,17 +100,22 @@ export const getPacksThunk = (sortValues?: SortValuesType) => async (dispatch: D
 }
 
 export const addPackThunk = (packName: string): ThunkType => async (dispatch) => {
+    dispatch(setPacksLoading(true))
     await API.addPack(packName)
         .then((res) => {
             dispatch(addPack(res.data))
             dispatch(getPacksThunk())
+            dispatch(setPacksLoading(false))
+            dispatch(openPopUpAddPack(false))
         })
 }
 
 export const deletePackThunk = (packId: string): ThunkType => async (dispatch) => {
+    dispatch(setPacksLoading(true))
     await API.deletePack(packId)
         .then((res) => {
             dispatch(deletePack(packId))
             dispatch(getPacksThunk())
+            dispatch(setPacksLoading(false))
         })
 }

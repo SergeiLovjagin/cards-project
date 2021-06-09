@@ -2,18 +2,24 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import {SuperInputText} from "../../n1-main/m1-ui/common/SuperInput/SuperInputText";
 import {SuperButton} from "../../n1-main/m1-ui/common/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
-import {addPackThunk, CardPacksType, deletePackThunk, getPacksThunk} from "../../n1-main/m2-bll/packsReducer";
+import {
+    CardPacksType,
+    deletePackThunk,
+    getPacksThunk,
+    openPopUpAddPack
+} from "../../n1-main/m2-bll/packsReducer";
 import {RootReducerType} from "../../n1-main/m2-bll/store";
 import s from './Packs.module.scss'
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../n1-main/m1-ui/routes/Routes";
-import {setCardsThunk} from "../../n1-main/m2-bll/cardsReducer";
+import {setCardsThunk, setPackId} from "../../n1-main/m2-bll/cardsReducer";
 import Pagination from 'rc-pagination';
 import localeInfo from './../../locale/en_US'
 import './Pagination.scss'
 import MultiRangeSlider from './PacksSorting';
 import Select from 'rc-select';
 import './Rc-select.scss'
+import {PopUp} from "../../n1-main/m1-ui/common/utills/modal-popUp/PopUp";
 
 
 export const Packs = () => {
@@ -24,25 +30,27 @@ export const Packs = () => {
         dispatch(getPacksThunk())
     }, [dispatch])
     const packs = useSelector<RootReducerType, CardPacksType>(state => state.packs.packs)
-    const [packName, setPackName] = useState('')
     const [privateFilter, setPrivateFilter] = useState<'all' | 'private'>('all')
     const cardPackTotalCount = useSelector<RootReducerType, number>(state => state.packs.cardPackTotalCount)
     const user_id = useSelector<RootReducerType, string | undefined>(state => state.profile.user?._id)
+    const openPopUp = useSelector<RootReducerType, boolean>(state => state.packs.wantToAddPack)
+    const loading = useSelector<RootReducerType, boolean>( state => state.packs.loading )
 
     // HANDLERS
     const handleAddPack = () => {
-        dispatch(addPackThunk(packName))
-        setPackName('')
+        dispatch(openPopUpAddPack(true))
     }
     const handleDeletePack = (packId: string) => {
         dispatch(deletePackThunk(packId))
     }
-    const handleChangeText = (e: ChangeEvent<HTMLInputElement>) => {
-        setPackName(e.currentTarget.value)
-    }
     const handleOnLearnButton = (packId: string) => {
         dispatch(setCardsThunk(packId))
+        dispatch(setPackId(packId))
     }
+    const handleClosePopUp = () => {
+        dispatch(openPopUpAddPack(false))
+    }
+
 
     //FILTER HANDLERS
     const onChangeShowSize = (current: number, pageSize: number) => {
@@ -82,12 +90,21 @@ export const Packs = () => {
                     <h2 className={s.listTitle}>Packs list</h2>
                     <div className={s.addPack}>
                         <div className={s.inputSearchWrap}>
-                            <SuperInputText className={s.inputSearch} placeholder={'Search...'}
-                                            onChange={handleChangeText} value={packName}/>
+                            <SuperInputText className={s.inputSearch} placeholder={'Search...'}/>
                         </div>
                         <SuperButton className={s.addBtn} onClick={handleAddPack}>Add new pack</SuperButton>
+                        {
+                            openPopUp &&
+                            <PopUp setServerErrorCallback={handleClosePopUp}
+                                   textForPlaceholder={"Name Pack.."}
+                                   popUpTitle={"Add new pack"}
+                            />
+                        }
                     </div>
                     <div className={s.table}>
+                        {
+                            loading && <div>Loading ...</div>
+                        }
                         <div className={s.tableHeader}>
                             <div className={s.tableItem}>Name</div>
                             <div className={s.tableItem}>Cards</div>
@@ -95,9 +112,9 @@ export const Packs = () => {
                             <div className={s.tableItem}>Created by</div>
                             <div className={s.tableItem}>Actions</div>
                         </div>
+
                         {
                             packs.map((pack, index) => {
-                                // debugger
                                 return (
                                     <div className={s.packRow} key={index}>
 
