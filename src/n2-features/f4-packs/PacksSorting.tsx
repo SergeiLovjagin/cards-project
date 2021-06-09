@@ -29,7 +29,7 @@ const MultiRangeSlider: React.FC<MultiRangeSliderType> = ({min, max, onChangeMin
         return () => {
             clearTimeout(timeout);
         }
-    }, [minVal, maxVal, onChangeMinMaxValues])
+    }, [minVal, maxVal])
 
 
     // Set width of the range to decrease from the left side
