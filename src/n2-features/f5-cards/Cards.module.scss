@@ -1,0 +1,164 @@
+@import "./../../abstracts/vars";
+@import "./../../abstracts/mixins";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+
+.cards {
+  height: 1000px;
+
+  @include flex-edit(center, flex-start);
+
+  .wrap {
+    margin-top: 2rem;
+
+    padding: 1.2rem 1.5rem 0;
+
+    width: 1008px;
+    height: 636px;
+
+    background-color: $whiteColor;
+
+    .top {
+      display: flex;
+      .title {
+        margin-left: 1rem;
+
+        @include text-edit(Poppins, 600, 1.4rem, 1.5);
+
+        color: $blackColor;
+
+        text-align: left;
+
+      }
+
+      .titleBtn {
+        border: 0;
+        outline: 0;
+
+        background-color: transparent;
+      }
+    }
+
+
+    .btnBox {
+      margin-top: 1.3rem;
+
+      display: flex;
+
+      .inputWrap {
+        flex: 1 1 auto;
+
+        position: relative;
+
+        &::before {
+          content: "";
+
+          width: 1rem;
+          height: 1rem;
+
+          background-image: url("./../../assets/images/icons/search-icon.png");
+          background-repeat: no-repeat;
+
+          position: absolute;
+          top: 50%;
+          left: 12px;
+
+          transform: translate(0, -50%);
+        }
+      }
+
+      .cardsInput {
+        width: 100%;
+        height: 36px;
+
+        padding-left: 2.5rem;
+
+        border: 1px solid $lightGrey;
+        border-radius: 2px;
+
+        background-color: #ECECF9;
+      }
+
+
+      .cardsBtn {
+        width: 11.5rem;
+        height: 2.25rem;
+
+        margin-left: 1.5rem;
+
+        border-radius: 30px;
+        border: 0;
+
+        background-color: $accentColor;
+
+        @include text-edit(SF UI Display, 500, 1rem);
+
+        color: $whiteColor;
+      }
+    }
+  }
+
+  .alertText {
+    @include text-edit(SF UI Display, 400, 1rem, 1.2);
+
+    color: $lightGrey;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+  }
+
+  .table {
+    margin: 1.5rem 0;
+
+    border: 2px solid $secondaryColor;
+
+    filter: drop-shadow(0px 4px 14px rgba(45, 46, 70, 0.15));
+
+    .tableHeader {
+      height: 3rem;
+
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      grid-template-rows: 1fr;
+
+      column-gap: 10px;
+
+      .tableItem {
+        align-self: center;
+
+        @include text-edit(SF UI Display, 600, 1.1rem);
+      }
+    }
+
+    .cardsRow {
+      height: 48px;
+
+      padding: 0 10px;
+
+      display: grid;
+      grid-template-columns: repeat(6, auto);
+
+      grid-template-rows: 1fr;
+      column-gap: 10px;
+
+      &:nth-child(2n+1) {
+        background-color: #F8F7FD;
+      }
+
+      .cardsRowItem {
+        align-self: center;
+
+        margin: 0 5px;
+
+        @include text-edit(SF UI Display, 500, 0.8rem);
+
+        color: $blackColor;
+      }
+    }
+  }
+
+}
+

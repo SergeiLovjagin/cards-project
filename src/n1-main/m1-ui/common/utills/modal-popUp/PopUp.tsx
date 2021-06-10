@@ -62,7 +62,7 @@ export const PopUp: React.FC<PopUpProps> = (
     return (
         <div className={s.modalBox}>
             <div className={s.content}>
-                {(packsLoading || cardsLoading) && <div>Loading ...</div>}
+                {(packsLoading || cardsLoading) && <div className={s.loading}>Loading ...</div>}
 
                 {!(addPack || addCard)
                     ? <p>{text}</p> :
@@ -70,7 +70,7 @@ export const PopUp: React.FC<PopUpProps> = (
                         <h1>{popUpTitle}</h1>
                         {
                             addPack
-                                ? <div>
+                                ? <div >
                                     <SuperInputText placeholder={textForPlaceholder}
                                                     value={packName}
                                                     onChange={onChangePackTitleText}
@@ -79,7 +79,7 @@ export const PopUp: React.FC<PopUpProps> = (
                                 </div>
 
                                 : <div>
-                                    <div>
+                                    <div className={s.inputWrap}>
                                         <SuperInputText placeholder={textForQuestionPlaceholder}
                                                         value={question}
                                                         onChange={onChangeQuestionText}

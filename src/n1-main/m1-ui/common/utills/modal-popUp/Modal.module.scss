@@ -1,3 +1,7 @@
+@import "./../../../../../abstracts/vars";
+@import "./../../../../../abstracts/mixins";
+
+
 .modalBox{
   height: 100px;
   width: 400px;
@@ -5,10 +9,14 @@
   align-self: center;
   justify-self: center;
   z-index: 1;
-  margin-top: 50px;
+  //margin-top: 50px;
   animation: popUp 1s;
+
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   .content{
-    padding: 30px 30px;
+    padding: 20px 30px 30px;
     border-radius: 7px;
     background-color: #f9f9f9;
     border: 1px solid gray;
@@ -16,6 +24,11 @@
     overflow-y: scroll;
     position: relative;
     text-align: center;
+
+    .loading{
+
+    }
+
     button{
       position: absolute;
       top: 5px;
@@ -24,6 +37,15 @@
       color: gray;
     }
     .saveBtn {
+      margin-top: 1rem;
+
+      width: 127px;
+      height: 36px;
+
+      color:$whiteColor;
+
+      border:0;
+
       position: relative;
     }
   }

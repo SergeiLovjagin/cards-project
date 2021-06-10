@@ -1,3 +1,6 @@
+@import "./../../abstracts/vars";
+@import "./../../abstracts/mixins";
+
 .rc-pagination {
   margin: 0;
   padding: 0;
@@ -57,11 +60,13 @@
 
     &:focus,
     &:hover {
-      border-color: #1890ff;
+      //border-color: #1890ff;
       transition: all 0.3s;
 
       a {
-        color: #1890ff;
+        color: $whiteColor;
+
+        background-color: $accentColor;
       }
     }
 
@@ -71,7 +76,7 @@
       border-color: #1890ff;
 
       a {
-        color: #1890ff;
+        color: $whiteColor;
       }
 
       &:focus,
@@ -81,7 +86,7 @@
 
       &:focus a,
       &:hover a {
-        color: #40a9ff;
+        color:$whiteColor;
       }
     }
   }
