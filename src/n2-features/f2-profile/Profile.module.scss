@@ -1,0 +1,110 @@
+@import "./../../abstracts/vars";
+@import "./../../abstracts/mixins";
+
+.profile {
+  @include flex-edit(center, center);
+
+
+  .wrap {
+    padding: 1.5rem 1.5rem 1.5rem 2.5rem;
+    margin: 3.8rem 0 2.6rem;
+
+    width: 32rem;
+    height: 42rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+
+    background-color: $whiteColor;
+
+    .imgWrap {
+
+
+      .profileImg {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        border-radius: 50%;
+      }
+    }
+
+    .inputWrap {
+      margin: 1rem 0;
+
+      .profileInput {
+        border: none;
+        border: 1px solid #D3D3D3;
+
+        background-color: $accentColor;
+
+        color: $whiteColor;
+      }
+    }
+
+    .changeWrap {
+      margin-bottom: 1rem;
+
+      align-self: center;
+
+      .changeInput {
+        border: none;
+        border: 1px solid #D3D3D3;
+
+        border-radius: 10px;
+        padding: 5px;
+
+        margin-bottom: .4rem;
+      }
+    }
+
+    .name {
+      margin-top: .4rem;
+
+      @include text-edit(SF UI Display, 500, 2.0rem, 1.5);
+
+      color: $accentColor;
+
+    }
+
+    .btnSave {
+      width: 187px;
+      height: 28px;
+
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+
+
+      align-self: center;
+
+      @include text-edit(SF UI Display, 500, 1rem);
+      color: white;
+
+      border-radius: 30px;
+
+      background-color: #21268F;
+    }
+
+
+    .dataWrap {
+
+      .dataItem {
+        margin-bottom: .3rem;
+        //padding: 2px 0;
+
+        display: flex;
+        justify-content: space-between;
+
+        color: $accentColor;
+
+        &:nth-child(2n-1) {
+          background-color: #ECECF9;
+        }
+      }
+    }
+  }
+}
+
+
